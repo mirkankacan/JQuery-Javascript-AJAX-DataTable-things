@@ -1,0 +1,166 @@
+ <style>
+ 	   .containercode {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            width:100%;
+
+            max-width: 100%;
+            text-align: center;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        }
+
+        .code-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 40px 0;
+        }
+
+        .code {
+            border-radius: 5px;
+            font-size: 60px;
+            height: 100%;
+            max-width: 100%;
+            width: 100px;
+            border: 1px solid #eee;
+            outline-width: thin;
+            outline-color: #ddd;
+            margin: 1%;
+            text-align: center;
+            font-weight: 300;
+            -moz-appearance: textfield;
+            margin-left: 10px;
+        }
+
+            .code::-webkit-outer-spin-button,
+            .code::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+            .code:valid {
+                border-color: #1DBF73;
+                box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+            }
+
+      
+        @@supports (-webkit-touch-callout: none) {
+            /* CSS specific to iOS devices */
+            .code {
+                font-size: 30px;
+                height: 100%;
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+
+        @@supports not (-webkit-touch-callout: none) {
+            /* CSS for other than iOS devices */
+            .code {
+                font-size: 30px;
+                height: 100%;
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+ </style>
+  <div class="containercode">
+                        <h2>Verify your account</h2>
+                        <p>Check your mail</p>
+                        <div class="code-container">
+                            <input id="1" type="number" class="code" placeholder="*" min="0" max="9" required>
+                            <input id="2" type="number" class="code" placeholder="*" min="0" max="9" required>
+                            <input id="3" type="number" class="code" placeholder="*" min="0" max="9" required>
+                            <input id="4" type="number" class="code" placeholder="*" min="0" max="9" required>
+                            <input id="5" type="number" class="code" placeholder="*" min="0" max="9" required>
+                            <input id="6" onchange="checkNumber" type="number" class="code" placeholder="*" min="0" max="9" required>
+                        </div>
+                        <div>Minutes left:&nbsp;<span style="color:palevioletred" id="time">02:00</span>&nbsp;<i class="ti-time"></i></div><br />
+
+
+                    </div>
+                      <div id="btnArea" class="btn-block">  </div>
+
+<script>
+	$(document).ready(function () {
+    var min = 60 * 2,
+        display = $('#time');
+    startTimer(min, display);
+    codes[0].focus();
+
+
+});
+	const btnVerify = '  <button id="btnVerify" style="font-size:large" class="btn btn-success btn-block fa-lg  mb-3" onclick="accVerify()" type="button" disabled>Doğrula</button>';
+const btnReSend = '<button id="btnReSend" style="font-size:large" class="btn btn-warning btn-block fa-lg  mb-3" onclick="reSend()" type="button">Tekrar Gönder</button >';
+
+function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    const tim = setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.text(minutes + ":" + seconds);
+
+        if (--timer < 0) {
+            clearInterval(tim);
+            document.getElementById("btnArea").innerHTML = btnReSend;
+            $("#time").css("color", "red");
+
+        }
+
+
+    }, 1000);
+}
+
+function checkVal(val) {
+    if (val !== null && val !== "") {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+function checkNumber() {
+    const kod6 = $("#sifre6").val();
+    if (checkVal(kod6)) {
+        $("#btnVerify").prop("disabled", false);
+
+    }
+    else {
+        $("#btnVerify").prop("disabled", true);
+
+    }
+}
+codes.forEach((code, idx) => {
+
+    code.addEventListener('keydown', (e) => {
+        const code1 = $("#1").val();
+        const code2 = $("#2").val();
+        const code3 = $("#3").val();
+        const code4 = $("#4").val();
+        const code5 = $("#5").val();
+
+        if (checkVal(code1) && checkVal(code2) && checkVal(code3) && checkVal(code4) && checkVal(code5)) {
+            $("#btnVerify").prop("disabled", false);
+
+        }
+        else {
+            $("#btnVerify").prop("disabled", true);
+
+        }
+        if (e.key >= 0 && e.key <= 9) {
+            codes[idx].value = ''
+            setTimeout(() => codes[idx + 1].focus(), 10)
+        } else if (e.key === 'Backspace') {
+            setTimeout(() => codes[idx - 1].focus(), 10)
+        }
+
+
+    })
+})
+
+</script>

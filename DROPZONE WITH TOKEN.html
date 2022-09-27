@@ -1,0 +1,115 @@
+   <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="mx-auto d-block">
+                        <div class="location text-sm-center">
+                            <form method="post" id="upFile" name="upFile" class="dropzone" enctype="multipart/form-data">
+                                
+                               
+                            </form>
+                            <br />
+                            <button type="submit" id="uploadBtn" style="font-size:20px" class="btn btn-outline-success btn-rounded">Dosya Yükle <i class="ti-upload"></i></button>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+////////////////////////////////////////////////
+ <script>
+    $(document).ready(function () {
+ const token = "token";
+     
+            $("#upFile").dropzone({
+                url: "/",
+                method: "post",
+                headers: { "Authorization": 'Bearer ' + token },
+                clickable: true,
+                parallelUploads: 1,
+                addRemoveLinks: true,
+                uploadMultiple: true,
+                autoProcessQueue: false,
+                dictDefaultMessage: 'Dosya(ları) yüklemek için sürükle - bırak veya üzerime tıkla!',
+                dictFallbackMessage: 'Tarayıcınız sürükle - bırak işlemini desteklemiyor!',
+                dictCancelUpload: 'Yüklemeyi iptal et',
+                dictFileTooBig: 'Dosya boyutu çok büyük!',
+                dictRemoveFile: '<br><i style="color:red;font-size:20px" class="ti-trash" alt="Dosyayı kaldırmak için buraya tıkla." data-dz-remove></i>',
+                init: function () {
+
+                    var myDropzone = this;
+                    $("#uploadBtn").click(function (e) {
+                        e.preventDefault();
+
+                        if (myDropzone.getQueuedFiles().length > 0) {
+                            myDropzone.processQueue();
+
+
+                        }
+                        else {
+                            Swal.fire({
+
+                                text: 'Yüklenecek dosya(lar) bulunmuyor!',
+                                icon: 'warning',
+                                showConfirmButton: false,
+                                timer: 1499,
+                                allowOutsideClick: false
+                            });
+                        }
+                    });
+                    this.on("complete", function (file) {
+                        myDropzone.removeFile(file);
+                        setTimeout(function () {
+                            location.reload();
+                        },1500)
+
+                    });
+                    this.on('sending', function (file, xhr, formData) {
+                        // Append all form inputs to the formData Dropzone will POST
+                        var data = $('#upFile').serializeArray();
+
+                        $.each(data, function (key, el) {
+                            formData.append(el.name, el.value);                       
+                        });
+
+                    });
+
+                },
+                success: function (file, response) {
+                    Swal.fire({
+                                            text: 'Dosya(lar) başarıyla yüklendi!',
+                                            icon: 'success',
+                                            showConfirmButton: false,
+                                            timer: 1499,
+                                            allowOutsideClick: false
+                                        });
+                },
+                error: function (err) {
+                    if (err.status === 'canceled') {
+                        Swal.fire({
+
+                            text: 'Dosya(lar) yüklemesi iptal edildi!',
+                            icon: 'info',
+                            showConfirmButton: false,
+                            timer: 1499,
+                            allowOutsideClick: false
+                        });
+                    }
+                    else {
+                        Swal.fire({
+
+                                        text: 'Hata, dosya(lar) yüklenemedi!',
+                                        icon: 'error',
+                                        showConfirmButton: false,
+                                        timer: 1499,
+                                        allowOutsideClick: false
+                                    });
+                    }
+                }
+            });
+        
+ });
+    </script>

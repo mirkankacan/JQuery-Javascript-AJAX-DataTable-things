@@ -1,0 +1,42 @@
+   <script>
+    function post{
+   const token = "token";
+   $.ajax({
+                                    type: 'POST',
+                                    crossDomain: true,
+                                    url: "/",
+                                    "beforeSend": function (xhr) {
+                                        xhr.setRequestHeader("Authorization", "Bearer " + token)
+                                    },
+                                    dataType: 'json',
+                                    success: function (data, textStatus, xhr) {
+                                        if (xhr.status === 200) {
+                                           // Your code goes..
+
+
+                                            Swal.fire({
+
+                                                text: 'Success!',
+                                                icon: 'success',
+                                                showConfirmButton: false,
+                                                timer: 1499,
+                                                allowOutsideClick: false
+                                            });
+                                        }
+                                    },
+                                    error: function (data, textStatus, xhr) {
+
+                                        Swal.fire({
+
+                                            text: 'Error!',
+                                            icon: 'error',
+                                            showConfirmButton: false,
+                                            timer: 1499,
+                                            allowOutsideClick: false
+                                        });
+                                    }
+
+                                });
+
+};
+                                </script>

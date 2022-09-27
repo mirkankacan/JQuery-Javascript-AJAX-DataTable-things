@@ -1,0 +1,36 @@
+  <script>
+   
+
+function getToken(){
+  const usN = "username";
+  const passW = "password";
+  const grantType= "password";
+
+  $.ajax({
+            type: 'POST',
+            crossDomain: true,
+            url: "/",
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+            dataType: 'json',
+            data: 'username=' + usN + ' & password=' + passW + ' & grant_type=' + grantType,
+            success: function (data, textStatus, xhr) {
+                if(xhr.response === 200){
+                    const token = data.access.token;
+                }
+            },
+            error: function(data,textStatus,xhr){
+                 Swal.fire({
+
+                                            text: 'Error!',
+                                            icon: 'error',
+                                            showConfirmButton: false,
+                                            timer: 1499,
+                                            allowOutsideClick: false
+                                        });
+            }
+
+
+    });
+};
+  </script>

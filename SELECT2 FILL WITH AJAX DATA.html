@@ -1,0 +1,51 @@
+  <div class="row">
+            <div class="card">
+                <div class="card-body">
+                    <div class="mx-auto d-block">
+                        <div class="location text-sm-center">
+                           
+                            <select class="js-example-basic-single" id="drpExample" style="width:100%">
+                            </select>
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {  
+    $('.js-example-basic-single').select2({   
+    });
+  const token = "token";
+            $.ajax({
+                url: "/",
+                dataType: "json",
+                type: "POST",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer " + token)
+                },
+                success: function (data, textStatus, xhr) {
+                    $('#drpExample').append(`<option value="0">Select a country :)</option>`);
+                    $.each(data, function () {
+                        $('#drpExample').append(`<option value="${this['CountryID']}">${this['CountryName']}</option>`);
+                    });
+                },
+                error: function () {
+                    Swal.fire({
+
+                        text: 'Error!',
+                        icon: 'error',
+                        showConfirmButton: false,
+                        timer: 1499,
+                        allowOutsideClick: false
+                    });
+
+                }
+            })
+});
+
+        </script>
