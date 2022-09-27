@@ -48,7 +48,7 @@
                         else {
                             Swal.fire({
 
-                                text: 'Yüklenecek dosya(lar) bulunmuyor!',
+                                text: 'There is no file to upload!',
                                 icon: 'warning',
                                 showConfirmButton: false,
                                 timer: 1499,
@@ -76,7 +76,7 @@
                 },
                 success: function (file, response) {
                     Swal.fire({
-                                            text: 'Dosya(lar) başarıyla yüklendi!',
+                                            text: 'Success!',
                                             icon: 'success',
                                             showConfirmButton: false,
                                             timer: 1499,
@@ -87,7 +87,7 @@
                     if (err.status === 'canceled') {
                         Swal.fire({
 
-                            text: 'Dosya(lar) yüklemesi iptal edildi!',
+                            text: 'Upload has been cancelled',
                             icon: 'info',
                             showConfirmButton: false,
                             timer: 1499,
@@ -97,7 +97,7 @@
                     else {
                         Swal.fire({
 
-                                        text: 'Hata, dosya(lar) yüklenemedi!',
+                                        text: 'Error!',
                                         icon: 'error',
                                         showConfirmButton: false,
                                         timer: 1499,
