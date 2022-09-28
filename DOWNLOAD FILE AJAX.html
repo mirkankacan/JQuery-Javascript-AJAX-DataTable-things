@@ -1,0 +1,52 @@
+<script>
+
+    const token = "token";
+function downloadFile(fileId,fileEx,fileDesc,fileDate) {
+    $.ajax({
+        type: 'GET',
+        crossDomain: true,
+        url: "/",
+        cache: false,
+        xhr: function () {
+            var xhr = new XMLHttpRequest();
+            xhr.responseType = 'blob';
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var url = (window.URL || window.webkitURL).createObjectURL(xhr.response);
+                    var aLink = document.createElement('a');
+                    document.body.appendChild(aLink);
+                    aLink.href = url;
+                    aLink.download = fileDesc + " " + fileDate + fileEx;
+                    aLink.click();
+                }
+            }
+            return xhr;
+        },
+        "beforeSend": function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + token)
+        },
+        success: function (data) {
+            
+         
+                Swal.fire({
+
+                    text: 'Downloading!',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 1499,
+                    allowOutsideClick: false
+                });
+            
+        },
+        error: function (data, textStatus, xhr) {
+            Swal.fire({
+                text: 'Error!',
+                icon: 'error',
+                showConfirmButton: false,
+                timer: 1499,
+                allowOutsideClick: false
+            });
+        }
+    });
+};
+</script>
